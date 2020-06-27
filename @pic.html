@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+</head>
+<body>
+<body style="background-image: url("http://chuantu.xyz/t6/732/1588921393x3703728804.jpg"); background-repeat: no-repeat; background-position-x: 0px; background-position-y: 0px; background-size: 100% 100%;">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" accept="any" required name="photo" id="file"/>
+        <input type="submit" value="上传文件(记得选择路径哦!)">
+        <p><font color="#00dddd" size="5">上传文件到库，请勿上传中文名文件(请使用浏览器,非浏览器可能会无法读取文件)</p>
+        <p><i><font size="4">(上传速度一般约为0.3Mb/s,请耐心等待浏览器响应。请勿使用中文文件名，如果文件重名会一直保持加载状态，点击上传按钮后即为正在上传，请耐心等待浏览器响应。)</i></font></p>
+		<p><i><font size="2" color="blue">注：文件上传后会保留原文件名。文件如果重名请为你要上传的文件改名。</font></i></p>
+    </form>
+    
+</body>
+<script>
+        var submit = document.querySelectorAll('input')[1]
+        submit.addEventListener('click', function () {
+            setTimeout(() => {
+                window.location.href = 'http://192.168.0.107:10235/@upload.html'
+            },1000000);
+        })
+        function getHeader() {
+            var xhr = new XMLHttpRequest()
+            xhr.open('get', '/getMyHeader')
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    console.log(xhr.responseText)
+                    var img = document.createElement('img')
+                    img.style.width = '100px'
+                    img.style.height = '100px'
+                    img.style.border = '1px solid black'
+                    img.src = xhr.responseText
+                    document.body.appendChild(img)
+                }
+            }
+        }
+        getHeader() 
+    </script>
+</html>

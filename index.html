@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件管理</title>
+</head>
+<body>
+    <body style="background-image:url(../index.jpg);background-position:fixed; background-repeat:no-repeat; background-position: 0px 0px;background-size:100% 100%"></body>
+    <h1 id="a"><font color="#00dddd">文件管理<font size="2" color="green"><i></i></font></h1>
+    <table>
+        <tbody>
+            <tr>
+                <th valign="top"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=610250109,506414086&fm=26&gp=0.jpg" width="50px" height="50px"></th>
+                <th><font color="yellow"><a href="../">名称</a></th>
+                <th><a href="../">  最后修改日期  </a></th>
+                <th><a href="../">大小(字节/B)</a></th>
+                <th><a href="../">下载地址(点击可下载)</a></th>
+                <th><a href="../">删除</a></th>
+            </tr>
+    </tbody>
+    </table>
+</body>
+<script>
+    var a = document.getElementById('a');
+    a.onclick = function(){
+        alert('嘻嘻');
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            console.log(xhr.responseText);
+            var data = JSON.parse(xhr.responseText);
+            //console.log(data);
+            var htmls = '';
+            for (var i = 0; i < data.length; i++) {
+                htmls += '<tr>';
+                if(data[i].type == 'd'){
+                    htmls += '<td valign="top"><img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2903852492,2640758918&fm=26&gp=0.jpg" width="30px" height="30px" alt="[DIR]"></td>'
+                }else{
+                    htmls += '<td valign="top"><img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1921481363,999460307&fm=26&gp=0.jpg" width="30px" height="30px" alt="[DIR]"></td>'
+                }
+                var ip = "../download/"+data[i].name+""
+                var kb = data[i].size / 1024;
+                htmls += '<td><div><font color="black" size="4"><p>' + data[i].name + '</font></p></div></td>'
+                htmls += '<td align="right"><font color="#0000dd">'+data[i].mtime+'</td>'
+                htmls += '<td align="right"><font color="#00dd00">'+data[i].size+'</td>'
+                htmls += '<td align="right"><font color="black"><a href="'+ip+'">'+ip+'</a></td>'
+                htmls += '<td align="right"><a href=/delete?id='+data[i].name+'>删除该文件</a></td>'
+                htmls += '<td>&nbsp;</td>'
+                htmls += '</tr>'
+            }
+            document.getElementsByTagName('tbody')[0].innerHTML += htmls;
+        }
+    }
+
+    xhr.open('get', '/file');
+    xhr.send();
+</script>
+</html>
